@@ -1,11 +1,14 @@
-import { useState } from 'react'
-import PropTypes from 'prop-types';
-import './common.module.css'
+import { useState } from 'react'; //For re-rendering on some JS events
+import PropTypes from 'prop-types'; // As a prop is used as an argument to the main component function
+import './common.module.css'; //Common css, not used much as I have extensively used bootstrap
 
+// Header DOM to be built
 function Header({ cartValue }) {
 
+  // To show dropdown menu on click
   const [showMenu, setMenudisplay] = useState(false);
 
+  // To show dropdown menu when hamburger menu is clicked on smaller devices
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {

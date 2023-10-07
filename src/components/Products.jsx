@@ -1,10 +1,16 @@
-import { useEffect, useState } from "react";
-import PropTypes from 'prop-types';
+import { useEffect, useState } from "react"; //For rendering a callback at mounting & need re-rendering on some JS events
+import PropTypes from 'prop-types'; // As a prop is used as an argument to the main component function
 
+// Product DOM to be built
 const Products = ({ setCartValue }) => {
+
+  // Get & Set the products from API fetch, Mandatory to build the VDOM
   const [ConsumerProducts, setProducts] = useState([]);
 
+  // Add Product Title to Cart, as product has so many object values,
+  // I am storing only title at cart Array
   const [cart, setCart] = useState([]);
+
 
   const addToCart = (title) => {
     const newCart = [...cart, title];
@@ -18,16 +24,20 @@ const Products = ({ setCartValue }) => {
     setCartValue((prevCartValue) => prevCartValue - 1);
   }
 
+  // Set the Products from API JSON Response
   const getProducts = async () => {
     const response = await fetch('https://dummyjson.com/products');
     const data = await response.json();
     setProducts(data.products);
   }
 
+  // Implemented Mounting - Load all products - Need to clarify with Sanjay as it is loading several times.
   useEffect(() => {
     getProducts();
+    console.log('call me');
   }, []);
 
+  // Price Calculation
   const CalculatePrice = (price, discountPercentage) => {
 
     let newPrice = price;
@@ -46,6 +56,7 @@ const Products = ({ setCartValue }) => {
     )
   };
 
+  // Build Product Card
   const ProductCard = ({ stock, discountPercentage, thumbnail, title, price, rating }) => {
     console.log(title);
     return (
