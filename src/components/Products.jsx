@@ -80,7 +80,7 @@ const Products = ({ setCartValue }) => {
             {cart.find((element) => element === title) ? (
               <div className="text-center">
                 <a className="btn btn-outline-dark mt-auto" href="#" onClick={() => removeFromCart(title)}>
-                  Remove
+                  Remove from Cart
                 </a></div>
             ) : (
               <div className="text-center">
