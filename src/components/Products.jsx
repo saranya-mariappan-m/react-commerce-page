@@ -4,11 +4,29 @@ import PropTypes from 'prop-types';
 const Products = ({ setCartValue }) => {
   const [ConsumerProducts, setProducts] = useState([]);
 
+  const [cart, setCart] = useState([]);
+
+  const addToCart = (title) => {
+    const newCart = [...cart, title];
+    setCart(newCart);
+    setCartValue((prevCartValue) => prevCartValue + 1);
+  }
+
+  const removeFromCart = (title) => {
+    const newCart = cart.filter((item) => item !== title);
+    setCart(newCart);
+    setCartValue((prevCartValue) => prevCartValue - 1);
+  }
+
   const getProducts = async () => {
     const response = await fetch('https://dummyjson.com/products');
     const data = await response.json();
     setProducts(data.products);
   }
+
+  useEffect(() => {
+    getProducts();
+  }, []);
 
   const CalculatePrice = (price, discountPercentage) => {
 
@@ -27,25 +45,6 @@ const Products = ({ setCartValue }) => {
       </>
     )
   };
-
-  const [cart, setCart] = useState([]);
-  const addToCart = (title) => {
-    const newCart = [...cart, title];
-    setCart(newCart);
-    setCartValue((prevCartValue) => prevCartValue + 1);
-  }
-
-  const removeFromCart = (title) => {
-    const newCart = cart.filter((item) => item !== title);
-    setCart(newCart);
-    setCartValue((prevCartValue) => prevCartValue - 1);
-  }
-
-  useEffect(() => {
-    // Statements to be executed right after RealDOM Component Mounting
-    // setInterval(intervalCallback, 5000);
-    getProducts();
-  }, []);
 
   const ProductCard = ({ stock, discountPercentage, thumbnail, title, price, rating }) => {
     console.log(title);
@@ -96,16 +95,16 @@ const Products = ({ setCartValue }) => {
     )
   };
   ProductCard.propTypes = {
-    stock: PropTypes.number, // Optional
-    discountPercentage: PropTypes.number, // Optional
-    thumbnail: PropTypes.string, // Optional
-    title: PropTypes.string.isRequired, // Must Have prop
+    stock: PropTypes.number,
+    discountPercentage: PropTypes.number,
+    thumbnail: PropTypes.string,
+    title: PropTypes.string.isRequired, // Must Have
     price: PropTypes.number,
-    rating: PropTypes.number, // array of strings
+    rating: PropTypes.number,
   }
 
   Products.propTypes = {
-    setCartValue: PropTypes.number, // Optional
+    setCartValue: PropTypes.number, // Must Have to update Cart value
   }
 
 
@@ -113,18 +112,9 @@ const Products = ({ setCartValue }) => {
     <>
       <div className="container px-4 px-lg-5 mt-5">
         <div className="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-          {/* {console.log(ConsumerProducts)} */}
           {ConsumerProducts.map((details) => (
-            <ProductCard
-              // backgroundColor={details.backgroundColor}
-              stock={details.stock}
-              discountPercentage={details.discountPercentage}
-              thumbnail={details.thumbnail}
-              title={details.title}
-              price={details.price}
-              rating={details.rating}
-              // {...details}
-              key={details.title}
+            <ProductCard key={details.title}
+              {...details}
             />
           ))}
         </div>

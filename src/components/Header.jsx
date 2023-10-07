@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import PropTypes from 'prop-types';
 import './common.module.css'
 
 function Header({ cartValue }) {
@@ -68,6 +69,9 @@ function Header({ cartValue }) {
       </div>
     </>
   )
+}
+Header.propTypes = {
+  cartValue: PropTypes.number, // Must Have to update Cart value
 }
 
 export default Header
